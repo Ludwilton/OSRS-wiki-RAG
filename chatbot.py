@@ -12,20 +12,6 @@ from langchain_ollama import ChatOllama
 import re
 
 load_dotenv()
-
-print(f"Current working directory: {os.getcwd()}")
-print(f"Python script location: {__file__}")
-env_files = ['.env', '../.env', '../../.env']
-for env_file in env_files:
-    if os.path.exists(env_file):
-        print(f"Found .env file at: {os.path.abspath(env_file)}")
-        with open(env_file, 'r') as f:
-            lines = f.readlines()[:10]
-            print(f"Content preview:")
-            for line in lines:
-                if 'CHAT_MODEL' in line:
-                    print(f"  {line.strip()}")
-
 print(f"CHAT_MODEL: {os.getenv('CHAT_MODEL')}")
 print(f"EMBEDDING_MODEL: {os.getenv('EMBEDDING_MODEL')}")
 
@@ -46,13 +32,9 @@ llm = ChatOllama(
 
 
 prompt = PromptTemplate.from_template("""                                
-You are a helpful Old school runescape assistant. You will be provided with a query and a chat history.
-Your task is to retrieve relevant information from the vector store which contains all the information from the game wikipedia, and provide a response.
-For this you use the tool retrieve to get the relevant information.
-When you receive a tool call response, use the output to format an answer to the orginal use question, provide concise, natural language responses.
-
-- Don't repeat tool response verbatim
-- Don't add supplementary information.
+You are a helpful assistant. You will be provided with a query and a chat history.
+Your task is to retrieve relevant information from the vector store and provide a response.
+For this you use the tool 'retrieve' to get the relevant information, change queries for each call.
                                       
 The query is as follows:                    
 {input}
@@ -60,7 +42,7 @@ The query is as follows:
 The chat history is as follows:
 {chat_history}
 
-Please provide a concise and informative response based only on the retrieved information.
+Please provide a concise and informative response based on the retrieved information.
 If you don't know the answer, say "I don't know" (and don't provide a source).
                                       
 You can use the scratchpad to store any intermediate results or notes.
@@ -72,6 +54,7 @@ For every piece of information you provide, also provide the source.
 Return text as follows:
 
 <Answer to the question>
+<Additional steps and details if necessary>
 Source: source_url
 """)
 
@@ -117,8 +100,14 @@ agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True, max_itera
 
 
 
-st.set_page_config(page_title="OSRS Wiki Chatbot")
+st.set_page_config(
+    page_title="OSRS Wiki Chatbot",
+    page_icon="⚔️",
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
 st.title("OSRS Wiki Chatbot")
+
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
