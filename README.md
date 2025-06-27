@@ -90,3 +90,6 @@ OSRS-wiki-RAG/
 ### LLM models
 
 You can use different models by updating the `.env` file, make sure to unset the variable when swapping, generated response quality will vary significantly depending on model & system prompt
+
+
+based on [Local-RAG-with-Ollama](https://github.com/ThomasJanssen-tech/Local-RAG-with-Ollama)
