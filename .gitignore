@@ -192,3 +192,10 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+./clean_articles
+/clean_articles/
+/chroma_db
+/chroma_db/
+/osrs_articles/
+/osrs_articles
+/test_articles
