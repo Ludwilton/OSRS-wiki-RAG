@@ -43,25 +43,13 @@ pip install -r requirements.txt
 
 ## Usage
 
-### 1. Scrape Wiki Data (if not using existing datasets)
+### 1. Scrape Wiki Data, Process and Clean Articles,  Create Vector Embeddings
 
 ```bash
-python wikiscraper.py
+python main.py
 ```
 
-### 2. Process and Clean Articles
-
-```bash
-python article_cleanup.py
-```
-
-### 3. Create Vector Embeddings
-
-```bash
-python chunking_articles.py
-```
-
-### 4. Run the Chatbot
+### 2. Run the Chatbot
 
 ```bash
 streamlit run chatbot.py
@@ -89,7 +77,7 @@ OSRS-wiki-RAG/
 
 ### LLM models
 
-You can use different models by updating the `.env` file, make sure to unset the variable when swapping, generated response quality will vary significantly depending on model & system prompt
+You can use different models by updating the `.env` file, make sure to unset the variable when swapping, generated response quality will vary significantly depending on model & system prompt.Defaults to qwen3:8b.
 
 
-based on [Local-RAG-with-Ollama](https://github.com/ThomasJanssen-tech/Local-RAG-with-Ollama)
+basD on [Local-RAG-with-Ollama](https://github.com/ThomasJanssen-tech/Local-RAG-with-Ollama)
