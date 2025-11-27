@@ -83,4 +83,5 @@ You can use different models by updating the `.env` file, make sure to unset the
 
 based on [Local-RAG-with-Ollama](https://github.com/ThomasJanssen-tech/Local-RAG-with-Ollama)
 
+*This project uses material from the RuneScape Wiki and is licensed under the Creative Commons BY-NC-SA 3.0 license.*
 **this project is not affiliated with the oldschool runescape wiki in any way or form*
