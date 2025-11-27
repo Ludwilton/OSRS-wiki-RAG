@@ -2,7 +2,7 @@
 
 A Retrieval-Augmented Generation (RAG) chatbot for Old School RuneScape wiki content.
 
-![botdemo](.assets/bot_demo-webp.webp)
+![botdemo](./assets/bot_demo-webp.webp)
 
 ### 1. Install Ollama
 
