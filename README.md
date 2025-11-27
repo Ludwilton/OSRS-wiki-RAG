@@ -44,8 +44,9 @@ pip install -r requirements.txt
 ## Usage
 
 ### 1. Scrape Wiki Data, Process and Clean Articles,  Create Vector Embeddings
-
+__this process will take a while__
 ```bash
+
 python main.py
 ```
 
