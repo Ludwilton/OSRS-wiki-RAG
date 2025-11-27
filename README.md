@@ -7,7 +7,7 @@ A Retrieval-Augmented Generation (RAG) chatbot for Old School RuneScape wiki con
 ### 1. Install Ollama
 
 Download and install from [https://ollama.com/](https://ollama.com)
-
+_you also need to have [python](https://www.python.org/downloads/) installed._
 ### 2. Start Ollama and Pull Required Models
 
 ```bash
