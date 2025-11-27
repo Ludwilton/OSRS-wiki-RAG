@@ -83,7 +83,7 @@ You can use different models by updating the `.env` file, make sure to unset the
 
 based on [Local-RAG-with-Ollama](https://github.com/ThomasJanssen-tech/Local-RAG-with-Ollama)
 
-## License and Legal
+## Licenses
 
 ### The Code
 The source code for this project (Python scripts, logic) is licensed under the **MIT License**. See the `LICENSE` file for details.
