@@ -128,7 +128,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+
 .venv
 env/
 venv/
@@ -194,8 +194,10 @@ cython_debug/
 .cursorindexingignore
 ./clean_articles
 /clean_articles/
-/chroma_db
-/chroma_db/
 /osrs_articles/
 /osrs_articles
 /test_articles
+
+.old
+.qwen.chroma_db
+processing_progress.json
