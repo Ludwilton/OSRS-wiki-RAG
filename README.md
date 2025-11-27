@@ -81,4 +81,6 @@ OSRS-wiki-RAG/
 You can use different models by updating the `.env` file, make sure to unset the variable when swapping, generated response quality will vary significantly depending on model & system prompt.Defaults to qwen3:8b.
 
 
-basD on [Local-RAG-with-Ollama](https://github.com/ThomasJanssen-tech/Local-RAG-with-Ollama)
+based on [Local-RAG-with-Ollama](https://github.com/ThomasJanssen-tech/Local-RAG-with-Ollama)
+
+**this project is not affiliated with the oldschool runescape wiki in any way or form*
