@@ -201,3 +201,4 @@ cython_debug/
 .old
 .qwen.chroma_db
 processing_progress.json
+chroma_db
