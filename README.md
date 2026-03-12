@@ -13,7 +13,7 @@ _you also need to have [python](https://www.python.org/downloads/) installed._
 ```bash
 
 # In a new terminal, pull the required models
-ollama pull qwen3:8b  # or your preferred chat model
+ollama pull qwen3.5:9b  # or your preferred chat model
 ollama pull mxbai-embed-large  # for embeddings
 ```
 
@@ -78,10 +78,10 @@ OSRS-wiki-RAG/
 
 ### LLM models
 
-You can use different models by updating the `.env` file, make sure to unset the variable when swapping, generated response quality will vary significantly depending on model & system prompt.Defaults to qwen3:8b.
+You can use different models by updating the `.env` file, make sure to unset the variable when swapping, generated response quality will vary significantly depending on model & system prompt.Defaults to qwen3.5:9b.
 
 
-based on [Local-RAG-with-Ollama](https://github.com/ThomasJanssen-tech/Local-RAG-with-Ollama)
+Inspiration taken from: [Local-RAG-with-Ollama](https://github.com/ThomasJanssen-tech/Local-RAG-with-Ollama)
 
 ## Licenses
 
