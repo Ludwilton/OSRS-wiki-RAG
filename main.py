@@ -1,8 +1,7 @@
 import subprocess
 import sys
 import os
-# runs the scripts to create a vector db in sequence
-# useful when needing to update the db with new information.
+
 def main():
     scripts = [
         "wikiscraper.py",
@@ -15,7 +14,7 @@ def main():
             print(f"Error: File '{script}' not found.")
             return
 
-        print(f"--- Running {script} ---")
+        print(f"Running {script}")
         try:
             subprocess.run([sys.executable, script], check=True)
         except subprocess.CalledProcessError:
@@ -23,7 +22,7 @@ def main():
             return
         print("") 
 
-    print("Pipeline finished successfully.")
+    print("Pipeline finished.")
 
 if __name__ == "__main__":
     main()

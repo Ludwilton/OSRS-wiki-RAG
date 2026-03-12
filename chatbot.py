@@ -9,21 +9,14 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain.retrievers import ContextualCompressionRetriever
 from langchain.retrievers.document_compressors import FlashrankRerank
 import random
-# --- CONFIGURATION ---
+
 load_dotenv()
 
 RERANK_MODEL_NAME = "ms-marco-MiniLM-L-12-v2"
 
-print(f"CHAT_MODEL: {os.getenv('CHAT_MODEL')}")
-print(f"EMBEDDING_MODEL: {os.getenv('EMBEDDING_MODEL')}")
-
 
 @st.cache_resource
 def setup_rag_pipeline():
-    """
-    Initialize the database, re-ranker, and LLM once.
-    Using cache_resource so we don't reload the models on every button press.
-    """
     embeddings = OllamaEmbeddings(
         model=os.getenv("EMBEDDING_MODEL"),
     )
@@ -55,8 +48,6 @@ def setup_rag_pipeline():
 
 retriever, llm = setup_rag_pipeline()
 
-# --- PROMPT TEMPLATE ---
-
 PROMPT_TEMPLATE = """
 You are an expert Old School RuneScape (OSRS) Wiki assistant.
 Use the following pieces of retrieved context to answer the user's question.
@@ -79,19 +70,15 @@ Answer:
 prompt = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
 
 def clean_response(response_text):
-    """Remove thinking tags and clean up the response"""
     cleaned = re.sub(r'<think>.*?</think>', '', response_text, flags=re.DOTALL)
     cleaned = re.sub(r'<thinking>.*?</thinking>', '', cleaned, flags=re.DOTALL)
-    cleaned = re.sub(r'', '', cleaned, flags=re.DOTALL)
     cleaned = re.sub(r'\n\s*\n\s*\n+', '\n\n', cleaned)
     return cleaned.strip()
 
 def format_history(messages):
-    """Formats last 4 messages for context window"""
+    recent = messages[-4:]
     lines = []
-    # Only keep the last few turns to save context tokens
-    recent_msgs = messages[-4:] 
-    for m in recent_msgs:
+    for m in recent:
         if isinstance(m, HumanMessage):
             lines.append(f"Human: {m.content}")
         elif isinstance(m, AIMessage):
@@ -99,15 +86,12 @@ def format_history(messages):
     return "\n".join(lines)
 
 def format_docs(docs):
-    """Formats retrieved docs for the prompt"""
     formatted = []
     for doc in docs:
         source = doc.metadata.get("source", "Unknown")
         content = doc.page_content.replace("\n", " ")
         formatted.append(f"Source: {source}\nContent: {content}")
     return "\n\n---\n\n".join(formatted)
-
-# --- STREAMLIT UI ---
 
 st.set_page_config(
     page_title="OSRS Wiki RAG",
@@ -119,7 +103,6 @@ st.title("OSRS Wiki Assistant")
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Display Chat History
 for message in st.session_state.messages:
     if isinstance(message, HumanMessage):
         with st.chat_message("user"):
@@ -127,8 +110,6 @@ for message in st.session_state.messages:
     elif isinstance(message, AIMessage):
         with st.chat_message("assistant"):
             st.markdown(message.content)
-
-
 
 LOADING_TEXTS = [
     "Consulting the Wise Old Man...",
@@ -160,12 +141,6 @@ LOADING_TEXTS = [
 
 
 def get_random_loading_text() -> str:
-    """
-    Selects a random loading or placeholder text from the defined list.
-
-    Returns:
-        str: A randomly selected OSRS-themed string.
-    """
     return random.choice(LOADING_TEXTS)
 
 user_question = st.chat_input("Search the OSRS Wiki...")
@@ -197,8 +172,7 @@ if user_question:
                 
 
                 for chunk in response_stream:
-                    content = chunk.content
-                    full_response += content
+                    full_response += chunk.content
                     message_placeholder.markdown(clean_response(full_response) + "▌")
                 
                 final_clean = clean_response(full_response)
