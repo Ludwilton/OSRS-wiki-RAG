@@ -4,13 +4,13 @@ import json
 import glob
 import shutil
 from uuid import uuid4
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from typing import List
 from tqdm import tqdm
 from langchain_chroma import Chroma
 from langchain_ollama import OllamaEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-
+import multiprocessing
 load_dotenv()
 
 
@@ -24,11 +24,11 @@ def _require_env(name: str) -> str:
 EMBEDDING_MODEL = _require_env("EMBEDDING_MODEL")
 COLLECTION_NAME = _require_env("COLLECTION_NAME")
 DATABASE_LOCATION = _require_env("DATABASE_LOCATION")
-ARTICLES_DIR = os.getenv("CHUNK_INPUT_DIR", "clean_articles")
-CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "1000"))
-CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", "150"))
-MAX_WORKERS = int(os.getenv("CHUNK_MAX_WORKERS", "4"))
-BATCH_SIZE = int(os.getenv("CHUNK_BATCH_SIZE", "400"))
+ARTICLES_DIR = "clean_articles"
+CHUNK_SIZE = 1000
+CHUNK_OVERLAP = 150
+MAX_WORKERS = multiprocessing.cpu_count() - 1
+BATCH_SIZE = 400
 
 if CHUNK_OVERLAP >= CHUNK_SIZE:
     CHUNK_OVERLAP = max(1, int(CHUNK_SIZE * 0.15))
@@ -87,7 +87,7 @@ def chunk_article(article: dict):
 articles = load_articles(ARTICLES_DIR)
 print(f"Loaded {len(articles)} articles")
 
-with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+with ProcessPoolExecutor(max_workers=MAX_WORKERS) as executor:
     futures = [executor.submit(chunk_article, a) for a in articles]
 
     with tqdm(total=len(articles), desc="Chunking", unit="article") as pbar:

@@ -65,13 +65,13 @@ OSRS-wiki-RAG/
 ├── chatbot.py              # Main Streamlit chatbot application
 ├── wikiscraper.py          # Wiki content scraping
 ├── article_cleanup.py      # Article preprocessing and cleaning
-├── chunking_articles.py    # Text chunking and vector embedding creation
+├── chunk_articles.py       # Text chunking and vector embedding creation
 ├── requirements.txt        # Python dependencies
 ├── .env                    # Environment configuration
-├── chroma_db/             # ChromaDB vector database
-├── datasets/
-│   ├── osrs_articles/     # Raw scraped articles
-│   └── clean_articles/    # Processed and cleaned articles
+├── chroma_db/              # ChromaDB vector database
+├── datasets/               # Created on run
+│   ├── osrs_articles/      # Raw scraped articles
+│   └── clean_articles/     # Processed and cleaned articles
 └── README.md
 ```
 

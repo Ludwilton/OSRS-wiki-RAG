@@ -7,40 +7,24 @@ from tqdm import tqdm
 
 
 def clean_with_regex(wikitext):
+    """very messy parser, however retrieval quality is fine with this."""
     text = wikitext
-    
-    # templates
     text = remove_nested_templates(text)
-    
-    # HTML tags
     text = re.sub(r'<[^>]+>', '', text)
-    
-    # wikilinks
     text = re.sub(r'\[\[(?:File|Image|Category):[^\]]+\]\]', '', text)
     text = re.sub(r'\[\[([^\]|]+)\|([^\]]+)\]\]', r'\2', text)
     text = re.sub(r'\[\[([^\]]+)\]\]', r'\1', text)
     text = re.sub(r'\[([^\]]+)\]', '', text)
-    
-    # formatting
     text = re.sub(r"'''([^']+)'''", r'\1', text)
     text = re.sub(r"''([^']+)''", r'\1', text)
-    
-    # tables
     text = re.sub(r'^\s*\{\|.*?\|\}\s*$', '', text, flags=re.MULTILINE | re.DOTALL)
     text = re.sub(r'^\s*[|!].*$', '', text, flags=re.MULTILINE)
     text = re.sub(r'^\s*\|-.*$', '', text, flags=re.MULTILINE)
-    
-    # comments
     text = re.sub(r'<!--.*?-->', '', text, flags=re.DOTALL)
-
-    # section headers
     text = re.sub(r'^=+\s*(.+?)\s*=+\s*$', r'\1', text, flags=re.MULTILINE)
-    
-    # Clean HTML entities
     text = re.sub(r'&nbsp;', ' ', text)
     text = re.sub(r'&[a-zA-Z0-9#]+;', '', text)
-    
-    # Remove empty lines and excessive whitespace
+
     lines = text.split('\n')
     cleaned_lines = []
     
@@ -50,8 +34,7 @@ def clean_with_regex(wikitext):
             cleaned_lines.append(line)
         elif not cleaned_lines or cleaned_lines[-1]:
             cleaned_lines.append('')
-    
-    # Join and final whitespace cleanup
+            
     text = '\n'.join(cleaned_lines)
     text = re.sub(r'\n\s*\n\s*\n+', '\n\n', text)
     text = re.sub(r'[ \t]+', ' ', text)
@@ -85,6 +68,7 @@ def remove_nested_templates(text):
     
     return ''.join(result)
 
+
 def process_one_file(filename, input_dir, output_dir):
     input_path = os.path.join(input_dir, filename)
     output_path = os.path.join(output_dir, filename)
@@ -110,6 +94,7 @@ def process_one_file(filename, input_dir, output_dir):
         
     except Exception as e:
         return False, f"Error processing {filename}: {e}"
+
 
 def process_all_files(input_dir, output_dir):
     os.makedirs(output_dir, exist_ok=True)
@@ -150,5 +135,4 @@ def process_all_files(input_dir, output_dir):
 if __name__ == "__main__":
     input_directory = "osrs_articles"
     output_directory = "clean_articles"
-    
     process_all_files(input_directory, output_directory)
